@@ -1,0 +1,12 @@
+{
+  "name": "fo-paper-trader-nse-proxy",
+  "version": "1.0.0",
+  "description": "NSE India proxy for F&O Paper Trader app - no API key needed",
+  "main": "proxy.js",
+  "scripts": {
+    "start": "node proxy.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
