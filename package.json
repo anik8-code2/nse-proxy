@@ -1,7 +1,7 @@
 {
-  "name": "fo-paper-trader-nse-proxy",
-  "version": "1.0.0",
-  "description": "NSE India proxy for F&O Paper Trader app - no API key needed",
+  "name": "optiq-lite-nse-proxy",
+  "version": "2.0.0",
+  "description": "NSE option chain proxy for Optiq Lite - no API key needed",
   "main": "proxy.js",
   "scripts": {
     "start": "node proxy.js"
