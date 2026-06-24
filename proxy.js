@@ -274,6 +274,34 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
+  // ── /yf?symbol=^NSEI&interval=5m&range=1d (Yahoo Finance chart data) ──
+  if (path === "/yf") {
+    const symbol = url.searchParams.get("symbol") || "^NSEI";
+    const interval = url.searchParams.get("interval") || "5m";
+    const range = url.searchParams.get("range") || "1d";
+    const cKey = `yf_${symbol}_${interval}_${range}`;
+    const cached = getCache(cKey);
+    if (cached) return send(200, cached);
+    try {
+      const res = await httpsGet({
+        hostname: "query1.finance.yahoo.com",
+        path: `/v8/finance/chart/${encodeURIComponent(symbol)}?interval=${interval}&range=${range}&includePrePost=false`,
+        method: "GET",
+        headers: {
+          "User-Agent": randUA(),
+          "Accept": "application/json",
+          "Accept-Encoding": "gzip, deflate, br",
+        },
+      });
+      if (res.status !== 200) return send(res.status, { error: `Yahoo returned ${res.status}` });
+      const data = JSON.parse(res.body);
+      setCache(cKey, data);
+      return send(200, data);
+    } catch(e) {
+      return send(500, { error: e.message });
+    }
+  }
+
   return send(404, { error: "Not found" });
 });
 
